@@ -14,6 +14,7 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "expand-home-dir": "0.0.2",
     "fs-extra": "^0.26.4",
     "gm": "^1.21.1",
     "lodash": "^4.0.0",

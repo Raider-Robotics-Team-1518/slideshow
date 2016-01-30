@@ -124,8 +124,54 @@ ipc.on('close-import-window', function () {
 	}
 });
 
+/*
+ *	REMOVE PHOTOS WINDOW FUNCTIONS
+ */
+var removeWindow;
+ipc.on('open-remove-window', function () {
+	console.log('open-remove-window');
+	if (removeWindow) {
+		return;
+	}
 
-// not used
+	removeWindow = new BrowserWindow({
+		frame: false,
+		height: 300,
+		resizable: false,
+		width: 400
+	});
+
+	removeWindow.loadURL('file://' + __dirname + '/screens/remove.html');
+
+	removeWindow.on('closed', function () {
+		removeWindow = undefined;
+	});
+});
+
+ipc.on('close-remove-window', function () {
+	console.log('close-remove-window');
+	if (removeWindow) {
+		removeWindow.destroy();
+		removeWindow = undefined;
+	} else {
+		console.log('removeWindow does not exist');
+	}
+});
+
+
+/*
+ * LOGGER IPC FUNCTION
+ */
+
+ipc.on('log', function (event, msg) {
+	if (typeof msg === 'string') {
+		console.log(msg);
+	} else {
+		console.log(JSON.stringify(msg));
+	}
+});
+
 ipc.on('close-main-window', function () {
+	console.log('quitting...');
 	app.quit();
 });

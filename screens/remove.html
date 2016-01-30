@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Remove Old Photos</title>
+    <link rel="stylesheet" href="../css/photon.min.css">
+  </head>
+  <body>
+    <div class="window">
+
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Remove Old Photos</h1>
+      </header>
+
+      <div class="window-content">
+      <div style="margin: 20px;">
+        <form>
+          <p>Are you sure you want to remove <strong><em>all photos</em></strong> from the slideshow directory? There is <strong><em>no undo!</em></strong></p>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="confirm" id="confirm"> Yes, delete <em>all</em> photos from the slideshow directory.
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="cancel" id="cancel" class="btn btn-form btn-default">Close</button>
+            <button type="submit" id="ok" class="btn btn-form btn-primary btn-negative">Delete</button>
+          </div>
+        </form>
+        </div>
+        <p id="message"/>
+    </div>
+    <script src="remove.js"></script>
+  </body>
+</html>

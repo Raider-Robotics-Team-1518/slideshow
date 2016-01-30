@@ -3,13 +3,17 @@ var ipcRenderer = require('electron').ipcRenderer;
 var remote = require("remote");
 
 var _ = require('lodash');
+var expandHomeDir = require('expand-home-dir')
 var fs = require('fs-extra');
 var gm = require('gm'); // GraphicsMagick 
 var path = require('path');
 var wrench = require('wrench');
 
 var config = require('../config.json');
+var logger = require('../lib/logger');
 
+var ssDir = expandHomeDir(config.slideshowDirectory),
+	sdMP = expandHomeDir(config.sdCardMountPoint);
 
 // config.sdCardMountPoint
 // size.width, size.height -- use for resizing
@@ -21,17 +25,17 @@ document.getElementById('cancel').addEventListener('click', function (e) {
 });
 
 document.getElementById('ok').addEventListener('click', function (e) {
-	fs.ensureDirSync(config.slideshowDirectory);
+	fs.ensureDirSync(ssDir);
 	var photoPath, photosToCopy = [];
 	try {
 		// see if there's a DCIM path
-		fs.accessSync(path.join(config.sdCardMountPoint, 'DCIM'), fs.R_OK);
-		photoPath = path.join(config.sdCardMountPoint, 'DCIM');
+		fs.accessSync(path.join(sdMP, 'DCIM'), fs.R_OK);
+		photoPath = path.join(sdMP, 'DCIM');
 	} catch (err) {
 		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
 		// or there's no DCIM folder on the SD card
 		alert(err)
-		photoPath = config.sdCardMountPoint;
+		photoPath = sdMP;
 	}
 
 	_.each(wrench.readdirSyncRecursive(photoPath), function (file) {
@@ -40,7 +44,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
 			photosToCopy.push(path.basename(file));
 			var width, height,
-				writeStream = fs.createWriteStream(config.slideshowDirectory, {
+				writeStream = fs.createWriteStream(ssDir, {
 					autoClose: true,
 					defaultEncoding: 'binary'
 				});
@@ -54,7 +58,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.resize(screen.width)
 					.quality(70)
 					.autoOrient()
-					.write(path.join(config.slideshowDirectory, path.basename(file)), function (err) {
+					.write(path.join(ssDir, path.basename(file)), function (err) {
 						if (err) alert(JSON.stringify(err));
 					});
 			} else {
@@ -62,7 +66,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.resize(null, screen.height)
 					.quality(70)
 					.autoOrient()
-					.write(path.join(config.slideshowDirectory, path.basename(file)), function (err) {
+					.write(path.join(ssDir, path.basename(file)), function (err) {
 						if (err) alert(JSON.stringify(err));
 					});
 			}
