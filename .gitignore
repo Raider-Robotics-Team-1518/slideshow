@@ -1,3 +1,6 @@
+# ignore the photos folder that contains the slideshow's images
+photos
+
 # Logs
 logs
 *.log

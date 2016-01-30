@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Raider Robotics Slideshow</title>
+    <link rel="stylesheet" href="../css/photon.min.css">
+  </head>
+  <body>
+    <div class="window">
+
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Raider Robotics Slideshow</h1>
+      </header>
+
+      <div class="window-content">
+
+        <table style="margin-left: 20%;width:60%;"  class="table-striped">
+          <tr id="importPictures">
+            <td><span class="icon icon-camera" style="font-size: 48px;"></span></td>
+            <td>Import pictures from the SD card</td>
+          </tr>
+          <tr id="startSlideshow">
+            <td width="25%"><span class="icon icon-monitor" style="font-size: 48px;"></span></td>
+            <td>Start the slideshow</td>
+          </tr>
+          <tr id="deletePhotos">
+            <td><span class="icon icon-trash" style="font-size: 48px;"></span></td>
+            <td>Remove <em>all</em> old photos</td>
+          </tr>
+        </table>
+      </div>
+      <footer class="toolbar toolbar-footer">
+        <div class="toolbar-actions">
+          <button class="btn btn-primary pull-right" id="btnEject">
+            Eject Card
+          </button>
+        </div>
+      </footer>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>

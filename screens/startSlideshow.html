@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Slideshow Options</title>
+    <link rel="stylesheet" href="../css/photon.min.css">
+  </head>
+  <body>
+    <div class="window">
+
+      <header class="toolbar toolbar-header">
+        <h1 class="title">Slideshow Options</h1>
+      </header>
+
+      <div class="window-content">
+      <div style="margin: 20px;">
+        <form>
+          <div class="form-group">
+            <label for="delay">How long should each photo be shown? (seconds)</label>
+            <input type="textbox" name="delay" id="delay" class="form-control" value="5">
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="random" id="random" checked> Randomize photos
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="cancel" id="cancel" class="btn btn-form btn-default">Cancel</button>
+            <button type="submit" id="ok" class="btn btn-form btn-primary">Go!</button>
+          </div>
+        </form>
+        </div>
+    </div>
+    <script src="startSlideshow.js"></script>
+  </body>
+</html>
