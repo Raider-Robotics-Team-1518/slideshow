@@ -11,6 +11,8 @@ var sys = require('sys');
 var busy, child;
 
 var config = require('../config.json');
+var logger = require('../lib/logger');
+
 
 /*
  * Start the slideshow
@@ -60,7 +62,7 @@ importPictures.addEventListener("click", function () {
  */
 var deletePhotos = document.getElementById('deletePhotos');
 deletePhotos.addEventListener("click", function () {
-
+	ipcRenderer.send('open-remove-window');
 });
 
 
@@ -86,16 +88,17 @@ btnEject.addEventListener('click', function () {
 
 function unmountCard() {
 	child = exec("umount " + config.sdCardMountPoint, function (error, stdout, stderr) {
-		sys.print('stdout: ' + stdout);
-		sys.print('stderr: ' + stderr);
+		// sys.print('stdout: ' + stdout);
+		// sys.print('stderr: ' + stderr);
 		if (error !== null) {
-			console.log('exec error: ' + error);
+			logger.log('exec error: ' + error);
 		}
 	});
 }
 
-// not currently used, but kept here for reference
-var closeEl = document.querySelector('.close');
-closeEl.addEventListener('click', function () {
-	ipcRenderer.send('close-main-window');
+// Quit button - not working so commented out
+var quitButton = document.getElementById('btnQuit');
+quitButton.addEventListener("click", function () {
+	logger.log('index.js - sending quit message');
+	// ipcRenderer.send('close-main-window');
 });
