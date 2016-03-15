@@ -30,6 +30,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	try {
 		// see if there's a DCIM path
 		if (fs.existsSync(path.join(sdMP, 'DCIM'))) {
+			console.log('DCIM directory present, adding it to the base path');
 			photoPath = path.join(sdMP, 'DCIM');
 		}
 	} catch (err) {
@@ -38,19 +39,21 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		console.log(err);
 		photoPath = sdMP;
 	}
-
-	_.each(wrench.readdirSyncRecursive(sdMP), function (file) {
+	console.log('Our source path is: ' + photoPath);
+	_.each(wrench.readdirSyncRecursive(photoPath), function (file) {
 		// build the list of files to copy
 		var f = file.toLowerCase(),
 			fqname = path.join(photoPath, file);
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
 			// copy only JPG files but not those that begin with '.' (hidden/special files)
+			console.log('Will copy: ' + fqname);
 			photosToCopy.push(fqname);
 		}
 	});
 	if (photosToCopy.length > 0) {
 		// now, actually copy them
 		_.each(photosToCopy, function (fileToCopy) {
+			console.log('Copying: ' + fileToCopy);
 			fs.copySync(fileToCopy, ssDir, {
 				clobber: false
 			});
