@@ -97,6 +97,10 @@ function unmountCard() {
 }
 
 function getSDCardName() {
+	if (config.cameraCardName && fs.existsSync(path.join(config.sdCardMountPoint, config.cameraCardName))) {
+		// if user has defined a camera card name and it exists, return it
+		return config.cameraCardName;
+	}
 	var possibleSDCards = fs.readdirSync(config.sdCardMountPoint);
 	if (!possibleSDCards || possibleSDCards.length === 0) {
 		alert('No SD card mounted');

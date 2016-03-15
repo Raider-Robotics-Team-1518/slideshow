@@ -1,4 +1,5 @@
 {
 	"slideshowDirectory": "~/Documents/slideshow/photos",
-	"sdCardMountPoint": "/media/pi/"
+	"sdCardMountPoint": "/media/pi/",
+	"cameraCardName": ""
 }
