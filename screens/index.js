@@ -60,10 +60,10 @@ importPictures.addEventListener("click", function () {
  * 		2. Prompt them "Are you sure you want to delete NN photos? There's no undo!"
  * 		3. If yes, wrench.recursiveDelete(config.slideshowDirectory)
  */
-var deletePhotos = document.getElementById('deletePhotos');
-deletePhotos.addEventListener("click", function () {
-	ipcRenderer.send('open-remove-window');
-});
+// var deletePhotos = document.getElementById('deletePhotos');
+// deletePhotos.addEventListener("click", function () {
+// 	ipcRenderer.send('open-remove-window');
+// });
 
 
 /*
@@ -92,12 +92,11 @@ function unmountCard() {
 }
 
 // Quit button - not working so commented out
-var quitButton = document.getElementById('btnQuit');
-quitButton.addEventListener("click", function () {
-	console.log('index.js - sending quit message');
-	// ipcRenderer.send('close-main-window');
-});
-
+// var quitButton = document.getElementById('btnQuit');
+// quitButton.addEventListener("click", function () {
+// 	console.log('index.js - sending quit message');
+// 	// ipcRenderer.send('close-main-window');
+// });
 document.addEventListener("keydown", function (e) {
 	if (e.keyCode === 123) { // F12
 		var window = remote.getCurrentWindow();

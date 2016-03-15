@@ -44,7 +44,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 			fqname = path.join(photoPath, file);
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
 			// copy only JPG files but not those that begin with '.' (hidden/special files)
-			photosToCopy.push(path.basename(file));
+			photosToCopy.push(fqname);
 		}
 	});
 	if (photosToCopy.length > 0) {
