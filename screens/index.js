@@ -81,11 +81,13 @@ btnEject.addEventListener('click', function () {
 });
 
 function unmountCard() {
-	var sdCardName = getSDCardName;
+	var sdCardName = getSDCardName(),
+		sdCardPath;
 	if (!sdCardName) {
 		return;
 	}
-	child = exec("umount " + path.join(config.sdCardMountPoint, sdCardName), function (error, stdout, stderr) {
+	sdCardPath = path.join(config.sdCardMountPoint, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
+	child = exec("umount " + sdCardPath, function (error, stdout, stderr) {
 		sys.print('stdout: ' + stdout);
 		sys.print('stderr: ' + stderr);
 		console.log('stdout: ' + stdout);
