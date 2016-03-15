@@ -63,9 +63,14 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		// now, actually copy them
 		_.each(photosToCopy, function (fileToCopy) {
 			console.log('Copying: ' + fileToCopy);
-			fs.copySync(fileToCopy, path.join(ssDir, path.basename(fileToCopy)), {
-				clobber: false
-			});
+			console.log('Copying to : ' + path.join(ssDir, path.basename(fileToCopy)));
+			try {
+				fs.copySync(fileToCopy, path.join(ssDir, path.basename(fileToCopy)), {
+					clobber: true
+				});
+			} catch (err) {
+				console.log(err);
+			}
 		});
 
 		alert("Copied " + photosToCopy.length + " photos to " + config.slideshowDirectory);
