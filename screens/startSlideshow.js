@@ -35,7 +35,7 @@ document.getElementById('cancel').addEventListener('click', function (e) {
 
 document.getElementById('ok').addEventListener('click', function (e) {
 	fs.ensureDirSync(expandHomeDir(config.slideshowDirectory));
-	if (countFilesInDirectory(expandHomeDir(config.slideshowDirectory))) {
+	try {
 		var delay = document.getElementById('delay').value || defaultDelay;
 		var random = document.getElementById("random").checked ? " - z" : " ";
 		exec("feh -Y -x -q -B black -F -Z" + random + "-D " + delay + " " + expandHomeDir(config.slideshowDirectory), function (error, stdout, stderr) {
@@ -46,7 +46,8 @@ document.getElementById('ok').addEventListener('click', function (e) {
 			}
 		});
 		ipcRenderer.send('close-slideshow-options');
-	} else {
+	} catch (err) {
+		console.log(err);
 		alert("There are no pictures in the " + expandHomeDir(config.slideshowDirectory) + " folder!");
 		ipcRenderer.send('close-slideshow-options');
 	}
