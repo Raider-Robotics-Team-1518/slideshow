@@ -53,7 +53,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		// build the list of files to copy
 		var f = file.toLowerCase(),
 			fqname = path.join(photoPath, file);
-		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
+		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.' && f.charAt(0) !== '.') {
 			// copy only JPG files but not those that begin with '.' (hidden/special files)
 			console.log('Will copy: ' + fqname);
 			photosToCopy.push(fqname);

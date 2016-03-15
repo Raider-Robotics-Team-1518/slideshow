@@ -53,7 +53,7 @@ git clone https://github.com/Raider-Robotics-Team-1518/slideshow.git
 cd slideshow
 ```
 
-(If you don't have Git installed, you can download a zip from the GitHub repository then extract it to a folder in your home directory.)
+(If you don't have Git installed, you can download a zip from the GitHub repository then extract it to a folder in your home directory. An advantage to doing the above, if you ever want to update to the latest published version, you would just do `cd ~/slideshow && git pull`)
 
 
 Install the project's dependencies:
@@ -69,11 +69,20 @@ Configure the app to read and write to the correct folders. Open the app's confi
 ```
 {
 	"slideshowDirectory": "~/Documents/slideshow/photos",
-	"sdCardMountPoint": "/home/pi/mount/"
+	"sdCardMountPoint": "/home/pi/mount/",
+	"cameraCardName": ""
 }
 ```
 
-[instructions here for placing an icon on the desktop]
+Leave cameraCardName blank unless this app cannot find your SD card during import. In rare cases, you may need to put the SD card's volume name in the config.json file. However, you will then be limited to importing from only that card.
+
+### Desktop shortcut
+
+1. Open the File Manager
+2. Open the slideshow folder
+3. Right-click on slideshow.sh, choose Properties, select the Permissions tab. From the Execute menu, choose Anyone. Click OK
+4. Drag the "Slideshow" icon to your desktop
+
 
 ## Usage instructions
 

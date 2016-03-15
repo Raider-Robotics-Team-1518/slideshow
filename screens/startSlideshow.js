@@ -37,7 +37,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	fs.ensureDirSync(expandHomeDir(config.slideshowDirectory));
 	try {
 		var delay = document.getElementById('delay').value || defaultDelay;
-		var random = document.getElementById("random").checked ? " - z" : " ";
+		var random = document.getElementById("random").checked ? " -z " : " ";
 		console.log("feh -Y -x -q -B black -F -Z" + random + "-D " + delay + " " + expandHomeDir(config.slideshowDirectory))
 		exec("feh -Y -x -q -B black -F -Z" + random + "-D " + delay + " " + expandHomeDir(config.slideshowDirectory), function (error, stdout, stderr) {
 			sys.print('stdout: ' + stdout);

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Slideshow
+Comment=Pit area slideshow tool by Team 1518
+Icon=/home/pi/slideshow/icon.xpm
+Exec=/home/pi/slideshow/slideshow.sh
+Type=Application
+Encoding=UTF-8
+Terminal=true
+Categories=None
+Path=/home/pi/slideshow
