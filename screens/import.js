@@ -30,7 +30,7 @@ if (!sdCardName) {
 console.log('getSDCardName(): ' + getSDCardName());
 console.log('path.join(sdMP, sdCardName): ' + path.join(sdMP, sdCardName));
 
-sdCardPath = path.join(sdMP, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
+sdCardPath = path.join(sdMP, sdCardName);
 
 var message = document.getElementById('message');
 
