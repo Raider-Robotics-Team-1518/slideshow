@@ -5,6 +5,7 @@ const ipcRenderer = require('electron').ipcRenderer;
 var electronScreen = electron.screen;
 var exec = require('child_process').exec;
 var fs = require('fs-extra')
+var path = require('path');
 var remote = require("remote");
 var size = electronScreen.getPrimaryDisplay().workAreaSize;
 var sys = require('sys');
@@ -80,7 +81,11 @@ btnEject.addEventListener('click', function () {
 });
 
 function unmountCard() {
-	child = exec("umount " + config.sdCardMountPoint, function (error, stdout, stderr) {
+	var sdCardName = getSDCardName;
+	if (!sdCardName) {
+		return;
+	}
+	child = exec("umount " + path.join(config.sdCardMountPoint, sdCardName), function (error, stdout, stderr) {
 		sys.print('stdout: ' + stdout);
 		sys.print('stderr: ' + stderr);
 		console.log('stdout: ' + stdout);
@@ -89,6 +94,19 @@ function unmountCard() {
 			console.log('exec error: ' + error);
 		}
 	});
+}
+
+function getSDCardName() {
+	var possibleSDCards = fs.readdirSync(config.sdCardMountPoint);
+	if (!possibleSDCards || possibleSDCards.length === 0) {
+		alert('No SD card mounted');
+		return false;
+	} else if (possibleSDCards.length > 1) {
+		alert('Only one camera card can be inserted at a time.');
+		return false;
+	} else {
+		return possibleSDCards[0];
+	}
 }
 
 // Quit button - not working so commented out

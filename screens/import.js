@@ -50,7 +50,9 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	if (photosToCopy.length > 0) {
 		// now, actually copy them
 		_.each(photosToCopy, function (fileToCopy) {
-			fs.copySync(fileToCopy, ssDir);
+			fs.copySync(fileToCopy, ssDir, {
+				clobber: false
+			});
 		});
 
 		alert("Copied " + photosToCopy.length + " photos to " + config.slideshowDirectory);
