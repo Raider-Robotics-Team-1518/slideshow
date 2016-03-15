@@ -47,7 +47,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		});
 		ipcRenderer.send('close-slideshow-options');
 	} else {
-		alert("There are no pictures in the " + config.slideshowDirectory + "folder!");
+		alert("There are no pictures in the " + expandHomeDir(config.slideshowDirectory) + " folder!");
 		ipcRenderer.send('close-slideshow-options');
 	}
 });
@@ -63,6 +63,7 @@ function countFilesInDirectory(dir) {
 	exec('ls -A ' + dir + ' | wc -l', function (error, stdout, stderr) {
 		if (!error) {
 			var numberOfFilesAsString = stdout.trim();
+			console.log("There are " + numberOfFilesAsString + " files in " + dir);
 			return numberOfFilesAsString;
 		} else {
 			throw error;
