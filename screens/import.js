@@ -29,8 +29,9 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	var photoPath, photosToCopy = [];
 	try {
 		// see if there's a DCIM path
-		fs.accessSync(path.join(sdMP, 'DCIM'), fs.R_OK);
-		photoPath = path.join(sdMP, 'DCIM');
+		if (fs.existsSync(path.join(sdMP, 'DCIM'))) {
+			photoPath = path.join(sdMP, 'DCIM');
+		}
 	} catch (err) {
 		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
 		// or we don't have read access to it
