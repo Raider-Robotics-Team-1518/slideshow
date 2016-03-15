@@ -29,20 +29,25 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	var photoPath, photosToCopy = [];
 	try {
 		// see if there's a DCIM path
-		fs.accessSync(sdMP, fs.R_OK);
+		fs.accessSync(path.join(sdMP, 'DCIM'), fs.R_OK);
+		photoPath = path.join(sdMP, 'DCIM');
 	} catch (err) {
 		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
 		// or we don't have read access to it
-		console(log);
-		return;
+		console.log(err);
+		photoPath = sdMP;
 	}
 
-	_.each(wrench.readdirSyncRecursive(photoPath), function (file) {
+	_.each(wrench.readdirSyncRecursive(sdMP), function (file) {
 		var f = file.toLowerCase(),
 			fqname = path.join(photoPath, file);
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
 			photosToCopy.push(path.basename(file));
-			var width, height;
+			var width, height,
+				writeStream = fs.createWriteStream(ssDir, {
+					autoClose: true,
+					defaultEncoding: 'binary'
+				});
 			gm(fqname).size(function (err, value) {
 				width = value.width;
 				height = value.height;
@@ -55,7 +60,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.autoOrient()
 					.write(path.join(ssDir, path.basename(file)), function (err) {
 						if (err) {
-							console(JSON.stringify(err));
+							console.log(JSON.stringify(err));
 						}
 					});
 			} else {
@@ -65,7 +70,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.autoOrient()
 					.write(path.join(ssDir, path.basename(file)), function (err) {
 						if (err) {
-							console(JSON.stringify(err));
+							console.log(JSON.stringify(err));
 						}
 					});
 			}
