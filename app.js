@@ -175,3 +175,5 @@ ipc.on('close-main-window', function () {
 	console.log('quitting...');
 	app.quit();
 });
+
+mainWindow.toggleDevTools();

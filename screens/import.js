@@ -52,13 +52,14 @@ document.getElementById('ok').addEventListener('click', function (e) {
 				width = value.width;
 				height = value.height;
 			});
+			console.log("Copying " + path.basename(file) + "(" + width + " x " + height);
 			if (width > height) {
 				// landscape oriented photos, resize to screen width
 				gm(fqname)
 					.resize(screen.width)
 					.quality(70)
 					.autoOrient()
-					.write(path.join(ssDir, path.basename(file)), function (err) {
+					.write(writeStream, function (err) {
 						if (err) {
 							console.log(JSON.stringify(err));
 						}
@@ -68,7 +69,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.resize(null, screen.height)
 					.quality(70)
 					.autoOrient()
-					.write(path.join(ssDir, path.basename(file)), function (err) {
+					.write(writeStream, function (err) {
 						if (err) {
 							console.log(JSON.stringify(err));
 						}
