@@ -26,7 +26,7 @@ function createWindow() {
 	// and load the index.html of the app.
 	mainWindow.loadURL('file://' + __dirname + '/screens/index.html');
 
-	mainWindow.toggleDevTools();
+	//mainWindow.toggleDevTools();
 
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {

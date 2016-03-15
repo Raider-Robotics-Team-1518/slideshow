@@ -12,11 +12,18 @@ var wrench = require('wrench');
 var config = require('../config.json');
 var logger = require('../lib/logger');
 
+// read in the configuration details to get the base paths
 var ssDir = expandHomeDir(config.slideshowDirectory),
 	sdMP = expandHomeDir(config.sdCardMountPoint);
 
-// config.sdCardMountPoint
-// size.width, size.height -- use for resizing
+// figure out the SD card's name
+var sdCardName = getSDCardName(),
+	sdCardPath;
+if (!sdCardName) {
+	console.log("No SD card present at " + sdMP);
+	ipcRenderer.send('close-import-window');
+}
+sdCardPath = path.join(config.sdCardMountPoint, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
 
 var message = document.getElementById('message');
 
@@ -74,3 +81,20 @@ document.addEventListener("keydown", function (e) {
 		window.toggleDevTools();
 	}
 });
+
+function getSDCardName() {
+	if (config.cameraCardName && fs.existsSync(path.join(config.sdCardMountPoint, config.cameraCardName))) {
+		// if user has defined a camera card name and it exists, return it
+		return config.cameraCardName;
+	}
+	var possibleSDCards = fs.readdirSync(config.sdCardMountPoint);
+	if (!possibleSDCards || possibleSDCards.length === 0) {
+		alert('No SD card inserted');
+		return false;
+	} else if (possibleSDCards.length > 1) {
+		alert('Only one camera card can be inserted at a time.');
+		return false;
+	} else {
+		return possibleSDCards[0];
+	}
+}
