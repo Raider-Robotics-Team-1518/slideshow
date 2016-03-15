@@ -35,27 +35,21 @@ document.getElementById('cancel').addEventListener('click', function (e) {
 
 document.getElementById('ok').addEventListener('click', function (e) {
 	fs.ensureDirSync(expandHomeDir(config.slideshowDirectory));
-	fs.readFile(expandHomeDir(config.slideshowDirectory), function (err, data) {
-		if (err) {
-			console.log(err);
-		}
-		if (!data || data.length === 0) {
-			alert("There are no pictures in the " + config.slideshowDirectory + "folder!");
-			ipcRenderer.send('close-slideshow-options');
-		} else {
-			var delay = document.getElementById('delay').value || defaultDelay;
-			var random = document.getElementById("random").checked ? " - z" : " ";
-			exec("feh -Y -x -q -B black -F -Z" + random + "-D " + delay + " " + expandHomeDir(config.slideshowDirectory), function (error, stdout, stderr) {
-				// sys.print('stdout: ' + stdout);
-				// sys.print('stderr: ' + stderr);
-				if (error !== null) {
-					console.log('exec error: ' + error);
-				}
-			});
-			ipcRenderer.send('close-slideshow-options');
-		}
-	});
-
+	if (countFilesInDirectory(expandHomeDir(config.slideshowDirectory))) {
+		var delay = document.getElementById('delay').value || defaultDelay;
+		var random = document.getElementById("random").checked ? " - z" : " ";
+		exec("feh -Y -x -q -B black -F -Z" + random + "-D " + delay + " " + expandHomeDir(config.slideshowDirectory), function (error, stdout, stderr) {
+			sys.print('stdout: ' + stdout);
+			sys.print('stderr: ' + stderr);
+			if (error !== null) {
+				console.log('exec error: ' + error);
+			}
+		});
+		ipcRenderer.send('close-slideshow-options');
+	} else {
+		alert("There are no pictures in the " + config.slideshowDirectory + "folder!");
+		ipcRenderer.send('close-slideshow-options');
+	}
 });
 
 document.addEventListener("keydown", function (e) {
@@ -64,3 +58,14 @@ document.addEventListener("keydown", function (e) {
 		window.toggleDevTools();
 	}
 });
+
+function countFilesInDirectory(dir) {
+	exec('ls -A ' + dir + ' | wc -l', function (error, stdout, stderr) {
+		if (!error) {
+			var numberOfFilesAsString = stdout.trim();
+			return numberOfFilesAsString;
+		} else {
+			throw error;
+		}
+	});
+}
