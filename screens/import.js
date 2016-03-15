@@ -16,6 +16,9 @@ var logger = require('../lib/logger');
 var ssDir = expandHomeDir(config.slideshowDirectory),
 	sdMP = expandHomeDir(config.sdCardMountPoint);
 
+console.log('ssDir: ' + ssDir + ' exists: ' + fs.existsSync(ssDir));
+console.log('sdMP: ' + sdMP + ' exists: ' + fs.existsSync(sdMP));
+
 // figure out the SD card's name
 var sdCardName = getSDCardName(),
 	sdCardPath;
@@ -23,7 +26,7 @@ if (!sdCardName) {
 	console.log("No SD card present at " + sdMP);
 	ipcRenderer.send('close-import-window');
 }
-sdCardPath = path.join(config.sdCardMountPoint, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
+sdCardPath = path.join(sdMP, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
 
 var message = document.getElementById('message');
 
@@ -36,15 +39,15 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	var photoPath, photosToCopy = [];
 	try {
 		// see if there's a DCIM path
-		if (fs.existsSync(path.join(sdMP, 'DCIM'))) {
+		if (fs.existsSync(path.join(sdCardPath, 'DCIM'))) {
 			console.log('DCIM directory present, adding it to the base path');
-			photoPath = path.join(sdMP, 'DCIM');
+			photoPath = path.join(sdCardPath, 'DCIM');
 		}
 	} catch (err) {
 		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
 		// or we don't have read access to it
 		console.log(err);
-		photoPath = sdMP;
+		photoPath = sdCardPath;
 	}
 	console.log('Our source path is: ' + photoPath);
 	_.each(wrench.readdirSyncRecursive(photoPath), function (file) {
