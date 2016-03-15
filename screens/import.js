@@ -29,13 +29,12 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	var photoPath, photosToCopy = [];
 	try {
 		// see if there's a DCIM path
-		fs.accessSync(path.join(sdMP, 'DCIM'), fs.R_OK);
-		photoPath = path.join(sdMP, 'DCIM');
+		fs.accessSync(sdMP, fs.R_OK);
 	} catch (err) {
 		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
-		// or there's no DCIM folder on the SD card
-		alert(err)
-		photoPath = sdMP;
+		// or we don't have read access to it
+		console(log);
+		return;
 	}
 
 	_.each(wrench.readdirSyncRecursive(photoPath), function (file) {
@@ -43,11 +42,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 			fqname = path.join(photoPath, file);
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
 			photosToCopy.push(path.basename(file));
-			var width, height,
-				writeStream = fs.createWriteStream(ssDir, {
-					autoClose: true,
-					defaultEncoding: 'binary'
-				});
+			var width, height;
 			gm(fqname).size(function (err, value) {
 				width = value.width;
 				height = value.height;
@@ -59,7 +54,9 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.quality(70)
 					.autoOrient()
 					.write(path.join(ssDir, path.basename(file)), function (err) {
-						if (err) alert(JSON.stringify(err));
+						if (err) {
+							console(JSON.stringify(err));
+						}
 					});
 			} else {
 				gm(fqname)
@@ -67,7 +64,9 @@ document.getElementById('ok').addEventListener('click', function (e) {
 					.quality(70)
 					.autoOrient()
 					.write(path.join(ssDir, path.basename(file)), function (err) {
-						if (err) alert(JSON.stringify(err));
+						if (err) {
+							console(JSON.stringify(err));
+						}
 					});
 			}
 
@@ -81,4 +80,11 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	}
 
 
+});
+
+document.addEventListener("keydown", function (e) {
+	if (e.keyCode === 123) { // F12
+		var window = remote.getCurrentWindow();
+		window.toggleDevTools();
+	}
 });

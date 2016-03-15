@@ -1,4 +1,4 @@
 {
 	"slideshowDirectory": "~/Documents/slideshow/photos",
-	"sdCardMountPoint": "/Volumes/Untitled"
+	"sdCardMountPoint": "/home/pi/mount/"
 }

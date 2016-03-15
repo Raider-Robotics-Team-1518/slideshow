@@ -66,13 +66,6 @@ deletePhotos.addEventListener("click", function () {
 });
 
 
-
-
-
-
-
-
-
 /*
  * Eject button
  */
@@ -88,10 +81,12 @@ btnEject.addEventListener('click', function () {
 
 function unmountCard() {
 	child = exec("umount " + config.sdCardMountPoint, function (error, stdout, stderr) {
-		// sys.print('stdout: ' + stdout);
-		// sys.print('stderr: ' + stderr);
+		sys.print('stdout: ' + stdout);
+		sys.print('stderr: ' + stderr);
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
 		if (error !== null) {
-			logger.log('exec error: ' + error);
+			console.log('exec error: ' + error);
 		}
 	});
 }
@@ -99,6 +94,13 @@ function unmountCard() {
 // Quit button - not working so commented out
 var quitButton = document.getElementById('btnQuit');
 quitButton.addEventListener("click", function () {
-	logger.log('index.js - sending quit message');
+	console.log('index.js - sending quit message');
 	// ipcRenderer.send('close-main-window');
+});
+
+document.addEventListener("keydown", function (e) {
+	if (e.keyCode === 123) { // F12
+		var window = remote.getCurrentWindow();
+		window.toggleDevTools();
+	}
 });

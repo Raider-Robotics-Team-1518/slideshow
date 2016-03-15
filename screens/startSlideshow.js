@@ -1,6 +1,7 @@
 'use strict';
 
 const ipcRenderer = require('electron').ipcRenderer;
+var remote = require("remote");
 
 var exec = require('child_process').exec;
 var expandHomeDir = require('expand-home-dir')
@@ -36,7 +37,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	fs.ensureDirSync(expandHomeDir(config.slideshowDirectory));
 	fs.readFile(expandHomeDir(config.slideshowDirectory), function (err, data) {
 		if (err) {
-			logger.log(err);
+			console.log(err);
 		}
 		if (!data || data.length === 0) {
 			alert("There are no pictures in the " + config.slideshowDirectory + "folder!");
@@ -48,11 +49,18 @@ document.getElementById('ok').addEventListener('click', function (e) {
 				// sys.print('stdout: ' + stdout);
 				// sys.print('stderr: ' + stderr);
 				if (error !== null) {
-					logger.log('exec error: ' + error);
+					console.log('exec error: ' + error);
 				}
 			});
 			ipcRenderer.send('close-slideshow-options');
 		}
 	});
 
+});
+
+document.addEventListener("keydown", function (e) {
+	if (e.keyCode === 123) { // F12
+		var window = remote.getCurrentWindow();
+		window.toggleDevTools();
+	}
 });
