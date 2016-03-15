@@ -26,6 +26,10 @@ if (!sdCardName) {
 	console.log("No SD card present at " + sdMP);
 	ipcRenderer.send('close-import-window');
 }
+
+console.log('getSDCardName(): ' + getSDCardName());
+console.log('path.join(sdMP, sdCardName): ' + path.join(sdMP, sdCardName));
+
 sdCardPath = path.join(sdMP, sdCardName).replace(/(["\s'$`\\])/g, '\\$1');
 
 var message = document.getElementById('message');
@@ -37,16 +41,11 @@ document.getElementById('cancel').addEventListener('click', function (e) {
 document.getElementById('ok').addEventListener('click', function (e) {
 	fs.ensureDirSync(ssDir);
 	var photoPath, photosToCopy = [];
-	try {
-		// see if there's a DCIM path
-		if (fs.existsSync(path.join(sdCardPath, 'DCIM'))) {
-			console.log('DCIM directory present, adding it to the base path');
-			photoPath = path.join(sdCardPath, 'DCIM');
-		}
-	} catch (err) {
-		// either sdCardMountPoint doesn't exist (but we tested for that in index.js)
-		// or we don't have read access to it
-		console.log(err);
+	// see if there's a DCIM path
+	if (fs.existsSync(path.join(sdCardPath, 'DCIM'))) {
+		console.log('DCIM directory present, adding it to the base path');
+		photoPath = path.join(sdCardPath, 'DCIM');
+	} else {
 		photoPath = sdCardPath;
 	}
 	console.log('Our source path is: ' + photoPath);
