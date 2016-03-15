@@ -63,7 +63,7 @@ document.getElementById('ok').addEventListener('click', function (e) {
 		// now, actually copy them
 		_.each(photosToCopy, function (fileToCopy) {
 			console.log('Copying: ' + fileToCopy);
-			fs.copySync(fileToCopy, ssDir, {
+			fs.copySync(fileToCopy, path.join(ssDir, path.basename(fileToCopy)), {
 				clobber: false
 			});
 		});
