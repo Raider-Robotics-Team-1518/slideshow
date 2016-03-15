@@ -26,6 +26,8 @@ function createWindow() {
 	// and load the index.html of the app.
 	mainWindow.loadURL('file://' + __dirname + '/screens/index.html');
 
+	mainWindow.toggleDevTools();
+
 	// Emitted when the window is closed.
 	mainWindow.on('closed', function () {
 		// Dereference the window object, usually you would store windows
@@ -175,5 +177,3 @@ ipc.on('close-main-window', function () {
 	console.log('quitting...');
 	app.quit();
 });
-
-mainWindow.toggleDevTools();

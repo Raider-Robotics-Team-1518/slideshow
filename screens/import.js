@@ -39,50 +39,24 @@ document.getElementById('ok').addEventListener('click', function (e) {
 	}
 
 	_.each(wrench.readdirSyncRecursive(sdMP), function (file) {
+		// build the list of files to copy
 		var f = file.toLowerCase(),
 			fqname = path.join(photoPath, file);
 		if ((path.extname(f) === '.jpg' || path.extname(f) === '.jpg') && path.basename(f).charAt(0) !== '.') {
+			// copy only JPG files but not those that begin with '.' (hidden/special files)
 			photosToCopy.push(path.basename(file));
-			var width, height,
-				writeStream = fs.createWriteStream(ssDir, {
-					autoClose: true,
-					defaultEncoding: 'binary'
-				});
-			gm(fqname).size(function (err, value) {
-				width = value.width;
-				height = value.height;
-			});
-			console.log("Copying " + path.basename(file) + "(" + width + " x " + height);
-			if (width > height) {
-				// landscape oriented photos, resize to screen width
-				gm(fqname)
-					.resize(screen.width)
-					.quality(70)
-					.autoOrient()
-					.write(writeStream, function (err) {
-						if (err) {
-							console.log(JSON.stringify(err));
-						}
-					});
-			} else {
-				gm(fqname)
-					.resize(null, screen.height)
-					.quality(70)
-					.autoOrient()
-					.write(writeStream, function (err) {
-						if (err) {
-							console.log(JSON.stringify(err));
-						}
-					});
-			}
-
 		}
 	});
 	if (photosToCopy.length > 0) {
+		// now, actually copy them
+		_.each(photosToCopy, function (fileToCopy) {
+			fs.copySync(fileToCopy, ssDir);
+		});
+
 		alert("Copied " + photosToCopy.length + " photos to " + config.slideshowDirectory);
 		ipcRenderer.send('close-import-window');
 	} else {
-		alert("Something went wrong");
+		alert("No photos found to copy.");
 	}
 
 
